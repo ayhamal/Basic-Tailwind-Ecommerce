@@ -6,7 +6,11 @@ const productsOnShoppingCartContainer = document.querySelector('#productsOnShopp
 const shoppingCartForm = document.querySelector('#shoppingCartForm')
 const phoneNumberInputField = document.querySelector('#phoneNumber')
 const formatPhoneNumberSpanErrorMessage = document.querySelector('#formatPhoneNumberErrorMessage')
+const formatCreditCardNumberErrorMessage = document.querySelector('#formatCreditCardNumberErrorMessage')
+const creditCardExpirationDataErrorMessage = document.querySelector('#creditCardExpirationDataErrorMessage')
 const messageCartEmpty = document.querySelector('#messageCartEmpty')
+const creditCardNumberInputField = document.querySelector('#creditCardNumber')
+const creditCardExpDateInputField = document.querySelector('#creditCardExpDate')
 const btnSubmitForm = document.querySelector('#btnSubmitForm')
 const btnResetForm = document.querySelector('#btnResetForm')
 
@@ -144,9 +148,18 @@ function removeAllProductsCardfromDOM(productsContainer) {
 function validatePhoneNumberFormat(inputtxt) { // Validate the provided phone has the struct XXX-XXX-XXXX
   var phoneRule = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/
   if (inputtxt.value.match(phoneRule)) {
-      return true
+        return true
     } else {
         return false;
+    }
+}
+
+function validateCreditCardNumberFormat(inputtxt) {
+    var cardNumberRule = /^\(?([0-9]{4})\)?[ ]?([0-9]{4})[ ]?([0-9]{4})[ ]?([0-9]{4})$/
+    if (inputtxt.value.match(cardNumberRule)) {
+        return true
+    } else {
+        return false
     }
 }
 
@@ -160,6 +173,28 @@ phoneNumberInputField.addEventListener('keyup', event => {
     if (event.target.value.length == 10) {
         var number = event.target.value.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/)
         event.target.value = number[1] + '-' + number[2] + '-' + number[3]
+    }
+})
+
+// Credit Card Input event listener
+creditCardNumberInputField.addEventListener('keyup', event => {
+    if (!validateCreditCardNumberFormat(creditCardNumberInputField)) {
+        showErrors(creditCardNumberInputField, formatCreditCardNumberErrorMessage)
+    } else {
+        removeErrors(creditCardNumberInputField, formatCreditCardNumberErrorMessage)
+    }
+    if (event.target.value.length == 16) {
+        var number = event.target.value.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/)
+        event.target.value = number[1] + ' ' + number[1] + ' ' + number[2] + ' ' + number[3]
+    }
+})
+
+// Credit Card Expiration Date event listener
+creditCardExpDateInputField.addEventListener('keyup', event => {
+    if(Number.parseInt(event.target.value.split('-')[0]) < 2020) {
+        showErrors(creditCardExpDateInputField, creditCardExpirationDataErrorMessage)
+    } else {
+        removeErrors(creditCardExpDateInputField, creditCardExpirationDataErrorMessage)
     }
 })
 
