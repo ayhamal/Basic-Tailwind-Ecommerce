@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign 08</title>
+
+    <!-- Tailwind css framework -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Custom assign08 css -->
+    <link rel="stylesheet" href="assign08.css">
+</head>
+<body>
+
+    <!--Page layout section -->
+    <div x-data="{ cartOpen: false, isOpen: false }" class="bg-white">
+        <!-- Page header section -->
+        <header>
+            <div class="container mx-auto px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <!-- Header Left: User location -->
+                    <div class="hidden w-full text-gray-600 md:flex md:items-center">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor" /><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor" />
+                        </svg>
+                        <span class="mx-1 text-sm">NY</span>
+                    </div>
+                    <!-- Header Center: Page title -->
+                    <div class="w-full text-gray-700 md:text-center text-2xl font-semibold">
+                        Assign08: Items i want to sell.
+                    </div>
+
+                    <!-- Header Right: Shopping Cart -->
+                    <div class="flex items-center justify-end w-full">
+                        <!-- Shopping cart button -->
+                        <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none mx-4 sm:mx-0">
+                            <!-- Cart icon -->
+                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Shopping cart section -->
+                    <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
+                        <!-- Shopping cart header -->
+                        <div class="flex items-center justify-between">
+                            <!-- Cart title -->
+                            <h3 class="text-2xl font-medium text-gray-700">Your cart</h3>
+                            <!-- Close cart icon -->
+                            <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                        <hr class="my-3">
+                        <!-- Checkout form -->
+                        <form id="shoppingCartForm">
+                            <!-- Products on shopping cart list -->
+                            <div id="productsOnShoppingCartContainer">
+                                <!-- Products on Shopping cart -->
+                                <span id="messageCartEmpty" class="">Not have products on Cart yet.</span>
+                            </div>
+                            <!-- Buyer details -->
+                            <div class="pt-5">
+                                <hr />
+                                <h4 class="py-5">Buyer details</h4>
+                                <!-- First Name Input Field -->
+                                <div class="py-2 grid grid-cols-1">
+                                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">First Name</label>
+                                    <!-- Give this field the name first_name. -->
+                                    <input
+                                    id="firstName"
+                                    name="first_name"
+                                    type="text"
+                                    placeholder="Your First Name"
+                                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                                    <span id="firstNameErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                </div>
+                                <!-- Last Name Input Field -->
+                                <div class="py-2 grid grid-cols-1">
+                                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Last Name</label>
+                                    <!-- Give this field the name last_name. -->
+                                    <input
+                                        id="lastName"
+                                        name="last_name"
+                                        type="text"
+                                        placeholder="Your Last Name"
+                                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                                    <span id="lastNameErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                </div>
+                                <!-- Address Input Field -->
+                                <div class="py-2 grid grid-cols-1">
+                                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Address</label>
+                                    <!-- Give this field the name address. -->
+                                    <input
+                                        id="adress"
+                                        name="address"
+                                        type="text"
+                                        placeholder="Your Address"
+                                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                                    <span id="addressErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                </div>
+                                <!-- Phone Number Input Field -->
+                                <div class="py-2 grid grid-cols-1">
+                                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Phone Number</label>
+                                    <!-- Give this field the name phone. -->
+                                    <input
+                                        id="phoneNumber"
+                                        name="phone"
+                                        type="text"
+                                        placeholder="Your Phone Number"
+                                        maxlength="12"
+                                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                                    <span id="phoneNumberErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                    <span id="formatPhoneNumberErrorMessage" class="px-3 text-red-500 hidden">Error: Invalid Phone Number Format.</span>
+                                </div>
+
+                                <!-- Payment card details -->
+                                <div class="pt-5">
+                                    <hr />
+                                    <h4 class="py-5">Payment details</h4>
+                                    <!-- Credit Card Type Selector Field -->
+                                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Card Type</label>
+                                    <div class="mt-2 text-center">
+                                        <label class="inline-flex items-center">
+                                          <input id="visaType" type="radio" class="form-radio" name="card_type" value="visa">
+                                          <span class="ml-2">Visa</span>
+                                        </label>
+                                        <label class="inline-flex items-center ml-6">
+                                          <input id="mastercardType" type="radio" class="form-radio" name="card_type" value="mastercard">
+                                          <span class="ml-2">Mastercard</span>
+                                        </label>
+                                        <label class="inline-flex items-center ml-6">
+                                            <input id="americanExpressType" type="radio" class="form-radio" name="card_type" value="american_express">
+                                            <span class="ml-2">American Express</span>
+                                          </label>
+                                      </div>
+                                    <!-- Credit Card Number Input Field -->
+                                    <div class="py-2 grid grid-cols-1">
+                                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Credit Card Number</label>
+                                        <!-- Give this field the name credit_card. -->
+                                        <input
+                                            id="creditCardNumber"
+                                            name="credit_card"
+                                            type="text"
+                                            placeholder="Credit Card Number"
+                                            maxlength="19"
+                                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                                        <span id="phoneNumberErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                        <span id="formatPhoneNumberErrorMessage" class="px-3 text-red-500 hidden">Error: Invalid Phone Number Format.</span>
+                                    </div>
+                                    <!-- Credit Card Expiration Date -->
+                                    <div class="py-2 grid grid-cols-1">
+                                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Expiration Date</label>
+                                        <!-- Give this field the name and id exp_date. -->
+                                        <input
+                                            id="creditCardExpDate"
+                                            name="exp_date"
+                                            type="month"
+                                            min="2020-01"
+                                            pattern="[0-9]{4}-[0-9]{2}"
+                                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                            required/>
+                                        <span id="addressErrorMessage" class="px-3 text-red-500 hidden">Error: Empty or Invalid Field. This field is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Checkout order section -->
+                            <button id="btnSubmitForm" type="submit" class="w-full flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <span>Chechout</span>
+                                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </button>
+                            <!-- Reset order section -->
+                            <button id="btnResetForm" type="button" class="w-full flex items-center justify-center mt-4 px-3 py-2 bg-gray-400 text-white text-sm uppercase font-medium rounded hover:bg-gray-500 focus:outline-none focus:bg-gray-500">
+                                <span>Reset</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page main section -->
+        <main class="my-8">
+            <div class="container mx-auto px-6">
+                <h3 class="text-gray-700 text-2xl font-medium">Wrist Watch</h3>
+                <span class="mt-3 text-sm text-gray-500">200+ Products</span>
+                <div id="productsContainer" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+                    <!-- Autoload Products card -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Page footer section -->
+        <footer class="bg-gray-200">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="#" class="text-xl font-bold text-gray-500 hover:text-gray-400">Zaida brand</a>
+                <p class="py-2 text-gray-500 sm:py-0">All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- AlphineJS Framework-->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+    <!-- Custom assign08 JS -->
+    <script src="assign08.js"></script>
+</body>
+</html>
