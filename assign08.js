@@ -222,12 +222,14 @@ function removeProductFromShoppingCartCache(products, product) {
 // Submit event listener
 btnSubmitForm.addEventListener('click', function(event) {
     event.preventDefault()
+    // Validate form to submit it
     console.log('Click on submit form button')
 })
 
 // Reset form event listener
 btnResetForm.addEventListener('click', function(event) {
     event.preventDefault()
+    // Clear data form and focus the form on First Name input
     console.log('Click on reset form button')
 })
 
